@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call of Duty: Modern Warfare Script Documentation</title>
+    <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('fonts/main_light.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('fonts/main_regular.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'CustomFont', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+        background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+        padding: 40px 20px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+    }
+
+    header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            url('art/menu_keyart_cross_mw_layer01.png'), 
+            url('art/frontend_popup_keyart_coldwar-inverted.png'),
+            url('art/frontend_popup_keyart_vanguard.png');
+        background-size: cover, cover, cover;
+        background-position: 0% center, 100% center, 200% center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+        background-blend-mode: overlay;
+        animation: slideBackground 15s infinite;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 107, 53, 0.3);
+        border-radius: 10px;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    @keyframes slideBackground {
+        0% {
+            background-position: 0% center, 100% center, 200% center;
+        }
+        33.33% {
+            background-position: -100% center, 0% center, 100% center;
+        }
+        66.66% {
+            background-position: -200% center, -100% center, 0% center;
+        }
+        100% {
+            background-position: -300% center, -200% center, -100% center;
+        }
+    }
+
+        header h1, header p {
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        nav {
+            background: #333;
+            background-image: url('art/frontend_popup_keyart_warzone.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        nav a {
+            color: #ff6b35;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            background: #ff6b35;
+            color: #fff;
+        }
+
+        .section {
+            background: #2a2a2a;
+            background-image: url('art/menu_keyart_cross_mw_layer01.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #ff6b35;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(42, 42, 42, 0.75);
+            border-radius: 10px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .section > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        #movement { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
+        #weapons { background-image: url('art/perk_icon_famenu_keyart_cross_coldwar_layer01stswap.png'); }
+        #player { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
+        #appearance { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
+        #visuals { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
+        #vehicles { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
+        #audio { background-image: url('art/icon_ftue-menu_keyart_cross_mw_layer01.png'); }
+        #admin { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
+        #advanced-fx { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
+        #omnvars { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
+        #gestures { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
+        #perks { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
+        #loadouts { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
+        #menu { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
+        #notes { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
+
+        .section h2 {
+            color: #ff6b35;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #444;
+        }
+
+        .section h3 {
+            color: #f7931e;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .command-block {
+            background: rgba(26, 26, 26, 1);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 3px solid #4CAF50;
+        }
+
+        .command-block code {
+            color: #4CAF50;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .command-block .description {
+            color: #b0b0b0;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+
+        .command-block .example {
+            color: #ffd700;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .warning {
+            background: #4a2626;
+            border-left: 5px solid #ff4444;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning::before {
+            content: "⚠️ ";
+            font-size: 1.2em;
+        }
+
+        .tip {
+            background: #264a4a;
+            border-left: 5px solid #44ffff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip::before {
+            content: "💡 ";
+            font-size: 1.2em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        th {
+            background: #ff6b35;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #333;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #444;
+            border-radius: 8px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+        .icon-img {
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+            margin-right: 8px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            vertical-align: middle;
+            margin-right: 15px;
+            filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.7));
+        }
+
+        .bigass-icon {
+            width: 220px;
+            height: auto;
+            vertical-align: middle;
+            margin-right: 15px;
+            filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.7));
+        }
+
+        .icon-preview {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 8px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .weapon-row, .camo-row {
+            transition: all 0.3s ease;
+        }
+
+        .weapon-row:hover, .camo-row:hover {
+            background: #3a3a3a !important;
+            transform: translateX(5px);
+        }
+
+        .icon-cell {
+            text-align: center;
+            width: 60px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .badge-mw { background: #ff6b35; color: white; }
+        .badge-cw { background: #f7931e; color: white; }
+        .badge-vg { background: #4CAF50; color: white; }
+
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .float-item {
+            position: absolute;
+            opacity: 0.08;
+            animation: float linear infinite;
+            filter: blur(1px);
+            object-fit: contain;
+            width: auto;
+            height: auto;
+            max-width: 15%;
+        }
+
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.08;
+            }
+            100% {
+                transform: translateY(-220vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .float-small { max-width: 2%; }
+        .float-medium { max-width: 7%; }
+        .float-large { max-width: 12%; }
+
+        .weapon-preview-container,
+        .camo-preview-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .weapon-preview-mini,
+        .camo-preview-mini {
+            text-align: center;
+            width: 60px;
+        }
+
+        .weapon-preview-container:hover .weapon-preview-mini,
+        .camo-preview-container:hover .camo-preview-mini {
+            border-color: #ff6b35;
+            transform: scale(1.1);
+        }
+
+        .weapon-preview-large,
+        .camo-preview-large {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            max-width: 90vw;
+            height: auto;
+            z-index: 10000;
+            border: 3px solid #ff6b35;
+            border-radius: 8px;
+            background: #1a1a1a;
+            padding: 15px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+        }
+
+        .weapon-preview-container:hover .weapon-preview-large,
+        .camo-preview-container:hover .camo-preview-large {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: visible;
+        }
+
+        .icon-cell {
+            text-align: center;
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-bg" id="floatingBg"></div>
+    <div class="container">
+        <header>
+            <h1>
+                <img src="icons/logo_cod_warzone_mw.png" alt="COD" class="bigass-icon">
+                <img src="icons/fontbolt.png" alt="IW8-MOD" class="bigass-icon">
+                
+            </h1>
+            <p>@elbasedd Script Documentation & Dvar Reference</p>
+        </header>
+
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for dvars...">
+
+        <nav>
+            <ul>
+                <li><a href="#movement"><img src="icons/perk_icon_adsmove.png" alt="" class="icon-img"> Movement</a></li>
+                <li><a href="#weapons"><img src="icons/perk_icon_fastswap.png" alt="" class="icon-img"> Weapons</a></li>
+                <li><a href="#player"><img src="icons/perk_icon_flinch.png" alt="" class="icon-img"> Player</a></li>
+                <li><a href="#appearance"><img src="icons/jup_hud_icon_perks_ghost_tv.png" alt="" class="icon-img"> Appearance</a></li>
+                <li><a href="#visuals"><img src="icons/jup_hud_icon_perks_intel_jacker_legacy.png" alt="" class="icon-img"> Visuals</a></li>
+                <li><a href="#vehicles"><img src="icons/hud_icon_vehicle_tac_rover.png" alt="" class="icon-img"> Vehicles</a></li>
+                <li><a href="#audio"><img src="icons/icon_ftue-ftus_audio_config_headphones.png" alt="" class="icon-img"> Audio</a></li>
+                <li><a href="#admin"><img src="icons/ui_mp_br_squad_leader_main.png" alt="" class="icon-img"> Admin</a></li>
+                <li><a href="#advanced-fx"><img src="icons/mgl_hud_audiovisualizer_explosion.png" alt="" class="icon-img"> VFX</a></li>
+                <li><a href="#omnvars"><img src="icons/icon_settings_fullscreen.png" alt="" class="icon-img"> Omnvars</a></li>
+                <li><a href="#gestures"><img src="icons/ui_gesture_west_side.png" alt="" class="icon-img"> Gestures</a></li>
+                <li><a href="#perks"><img src="icons/hud_icon_loadout_specialist.png" alt="" class="icon-img"> Perks</a></li>
+                <li><a href="#loadouts"><img src="icons/icon_loadout_gunsmith.png" alt="" class="icon-img"> Loadouts</a></li>
+                <li><a href="#menu"><img src="placeholders/menu_keyart_devplaylist_button.png" alt="" class="icon-img"> Menu</a></li>
+                <li><a href="#notes"><img src="icons/icon_global_patch_notes.png" alt="" class="icon-img"> Notes</a></li>
+            </ul>
+        </nav>
+
+        <!-- MOVEMENT & PHYSICS -->
+        <div class="section" id="movement">
+            <h2>
+                <img src="icons/perk_icon_adsmove.png" alt="" class="header-icon">
+                Movement & Physics
+            </h2>
+            
+            <div class="command-block">
+                <code>move_speed 1.0</code>
+                <div class="description">Movement speed multiplier</div>
+                <div class="example">Values: 0.1-5.0 (Engine), >5.0 (Custom velocity)</div>
+            </div>
+
+            <div class="command-block">
+                <code>super_jump 1</code>
+                <div class="description">Supa jump</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>jump_height 300</code>
+                <div class="description">Jump upward force</div>
+                <div class="example">Default: 300 | Examples: 500, 750, 1000</div>
+            </div>
+
+            <div class="command-block">
+                <code>jump_multi 1</code>
+                <div class="description">Jump momentum multiplier</div>
+                <div class="example">Examples: 1.0 (default), 1.5, 2.0</div>
+            </div>
+
+            <div class="command-block">
+                <code>jump_mode 1</code>
+                <div class="description">Jump cooldown type</div>
+                <div class="example">0 = Time-based, 1 = Ground-based (default)</div>
+            </div>
+            
+            <div class="command-block">
+                <code>jump_cooldown 1</code>
+                <div class="description">Jump cooldown in seconds( when using "jump_mode  0" for jumps instead of the default "super_jump" method)</div>
+                <div class="example">Examples: 0.3 (fast), 1.0 (default), 2.0 (slow)</div>
+            </div>
+
+            <div class="command-block">
+                <code>low_grav 1</code>
+                <div class="description">Low gravity mode</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>low_grav_strength 25</code>
+                <div class="description">Gravity reduction strength</div>
+                <div class="example">Default: 25 | Examples: 20 (light), 50 (strong)</div>
+            </div>
+
+            <div class="command-block">
+                <code>scaletime 1.0</code>
+                <div class="description">Game timescale multiplier</div>
+                <div class="example">Range: 0.1-20.0 | Examples: 0.5 (slow-mo), 1.0 (normal), 2.0 (fast)</div>
+            </div>
+
+            <div class="command-block">
+                <code>nc_enabled 1</code>
+                <div class="description">Toggle noclip with Jump+Melee buttons</div>
+                <div class="example">0 = Off, 1 = On (default)</div>
+            </div>
+
+            <div class="command-block">
+                <code>nc_slow 8.0</code>
+                <div class="description">Noclip slow speed</div>
+                <div class="example">Default: 8.0</div>
+            </div>
+
+            <div class="command-block">
+                <code>nc_normal 25.0</code>
+                <div class="description">Noclip normal speed (Sprint)</div>
+                <div class="example">Default: 25.0</div>
+            </div>
+
+            <div class="command-block">
+                <code>nc_fast 100.0</code>
+                <div class="description">Noclip fast speed (Sprint+Tactical)</div>
+                <div class="example">Default: 100.0</div>
+            </div>
+
+            <div class="tip">
+                <strong>Notice:</strong> When setting "move_speed" above 5 its start using a script based speed system, you may just start flying at times..
+            </div>
+        </div>
+
+        <!-- WEAPONS & ATTACHMENTS -->
+        <div class="section" id="weapons">
+            <h2>
+                <img src="icons/perk_icon_fastswap.png" alt="" class="header-icon">
+                Weapons & Attachments
+            </h2>
+
+            <div class="command-block">
+                <code>give_weapon iw8_ar_mike4</code>
+                <div class="description">Give yourself a weapon by reference name</div>
+                <div class="example">Examples: iw8_ar_mike4 (M4A1), iw8_sn_alpha50 (AX-50), s4_ar_stango44 (STG-44)</div>
+            </div>
+
+            <div class="command-block">
+                <code>weapon_variant 0</code>
+                <div class="description">Set weapon variant ID / Variant when using the "give_weapon" dvar</div>
+                <div class="example">-1 = Random camo, 0-999 = Specific variant</div>
+            </div>
+
+            <div class="command-block">
+                <code>give_variant 15</code>
+                <div class="description">Apply variant to current weapon</div>
+                <div class="example">Changes the variant of your currently held weapon</div>
+            </div>
+
+            <div class="command-block">
+                <code>max_weapons 2</code>
+                <div class="description">Maximum weapons to carry</div>
+                <div class="example">Default: 2 | Examples: 3, 5, 10</div>
+            </div>
+
+            <div class="command-block">
+                <code>weapon_switch 1</code>
+                <div class="description">Auto-switch to given weapon</div>
+                <div class="example">0 = Don't switch, 1 = Auto-switch (default)</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_camo camo_11c</code>
+                <div class="description">Apply camo to current weapon</div>
+                <div class="example">Examples: camo_11c (Damascus), camo_11d (Obsidian), camo_mp_t9mastery_darkmatter</div>
+            </div>
+
+            <div class="command-block">
+                <code>add_attachment reflex</code>
+                <div class="description">Add attachment to current weapon</div>
+                <div class="example">Examples: reflex, silencer, laserbalanced, grip</div>
+            </div>
+
+            <div class="command-block">
+                <code>akimbo 1</code>
+                <div class="description">Toggle dual wield on current weapon</div>
+                <div class="example">-1 = None, 0 = Disable, 1 = Enable</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_bullets cruise_proj_mp</code>
+                <div class="description">Fire custom projectiles instead of bullets</div>
+                <div class="example">Examples: cruise_proj_mp, white_phosphorus_proj_mp, emp_drone_proj_mp</div>
+            </div>
+
+            <h3>Special Weapons</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">Preview</th>
+                        <th>Reference</th>
+                        <th>Name</th>
+                        <th>Game</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Streak" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Streak" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_mg_streak</td>
+                        <td>placeholder</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="PILA" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="PILA" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_la_walpha2</td>
+                        <td>placeholder</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="3-Line Rifle" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="3-Line Rifle" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_mr_lecho</td>
+                        <td>placeholder</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Minigun" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Minigun" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>iw8_lm_dblmg</td>
+                        <td>Minigun</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Explosive Crossbow" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Explosive Crossbow" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>iw8_sn_t9explosivebow</td>
+                        <td>Explosive Crossbow</td>
+                        <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 25mm" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 25mm" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>ac130_25mm</td>
+                        <td>AC-130 25mm Cannon</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 40mm" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 40mm" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>ac130_40mm</td>
+                        <td>AC-130 40mm Cannon</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 105mm" class="icon-cell">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 105mm" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>ac130_105mm</td>
+                        <td>AC-130 105mm Howitzer</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Mastery Camo IDs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">Preview</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Game</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="icons/ui_camo_11a.png" alt="Gold" class="camo-preview-mini">
+                                <img src="icons/ui_camo_11a.png" alt="Gold" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_11a</td>
+                        <td>Gold</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="icons/ui_camo_11b.png" alt="Platinum" class="camo-preview-mini">
+                                <img src="icons/ui_camo_11b.png" alt="Platinum" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_11b</td>
+                        <td>Platinum</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="icons/ui_camo_11c.png" alt="Damascus" class="camo-preview-mini">
+                                <img src="icons/ui_camo_11c.png" alt="Damascus" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_11c</td>
+                        <td>Damascus</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="icons/ui_camo_11d.png" alt="Obsidian" class="camo-preview-mini">
+                                <img src="icons/ui_camo_11d.png" alt="Obsidian" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_11d</td>
+                        <td>Obsidian</td>
+                        <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
+                    </tr>
+
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Gold" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Gold" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_mp_t9mastery_gold</td>
+                        <td>Gold</td>
+                        <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Diamond" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Diamond" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_mp_t9mastery_diamond</td>
+                        <td>Diamond</td>
+                        <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Matter Ultra" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Matter Ultra" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_mp_t9mastery_darkmatter</td>
+                        <td>Dark Matter Ultra</td>
+                        <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Golden Viper" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Golden Viper" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_zm_t9mastery_gold</td>
+                        <td>Golden Viper</td>
+                        <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Plague Diamond" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Plague Diamond" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_zm_t9mastery_diamond</td>
+                        <td>Plague Diamond</td>
+                        <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Aether" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Aether" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>camo_zm_t9mastery_darkmatter</td>
+                        <td>Dark Aether</td>
+                        <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
+                    </tr>
+
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Gold" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Gold" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_camo_11a</td>
+                        <td>Gold</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Diamond" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Diamond" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_camo_11b</td>
+                        <td>Diamond</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Atomic" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Atomic" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_camo_11c</td>
+                        <td>Atomic</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Golden Viper" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Golden Viper" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_camo_11a_zm</td>
+                        <td>Golden Viper</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Plague Diamond" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Plague Diamond" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_camo_11b_zm</td>
+                        <td>Plague Diamond</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Aether" class="camo-preview-mini">
+                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Aether" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_camo_11c_zm</td>
+                        <td>Dark Aether</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- PLAYER & EQUIPMENT -->
+        <div class="section" id="player">
+            <h2>
+                <img src="icons/perk_icon_flinch.png" alt="" class="header-icon">
+                Player & Equipment
+            </h2>
+
+            <div class="command-block">
+                <code>inf_ammo 1</code>
+                <div class="description">Infinite ammo and equipment</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>god_mode 1</code>
+                <div class="description">Invincibility mode</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>nvg 1</code>
+                <div class="description">Enable night vision goggles</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>oob 1</code>
+                <div class="description">Disable out-of-bounds areas that give a timed warning</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>fix_barriers 1</code>
+                <div class="description">Remove map scripted death triggers, restorable by setting "fix_barriers" to 0</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>give_perk specialty_fastreload</code>
+                <div class="description">Give yourself a perk</div>
+                <div class="example">Examples: specialty_fastreload, specialty_stalker, specialty_ghost</div>
+            </div>
+
+            <div class="command-block">
+                <code>remove_perk specialty_fastreload</code>
+                <div class="description">Removes perk</div>
+                <div class="example">Removes the specified perk from your current active perks</div>
+            </div>
+
+            <div class="command-block">
+                <code>give_killstreak uav</code>
+                <div class="description">Give killstreak (add ' 1' for auto-activate)</div>
+                <div class="example">Examples: uav, precision_airstrike, cruise_predator 1 (auto), nuke</div>
+            </div>
+
+            <div class="command-block">
+                <code>ks_auto_activate 1</code>
+                <div class="description">Auto-activate all given killstreaks</div>
+                <div class="example">0 = Manual, 1 = Auto-activate</div>
+            </div>
+
+            <div class="command-block">
+                <code>give_super super_deadsilence</code>
+                <div class="description">Give field upgrade</div>
+                <div class="example">Examples: super_deadsilence, super_support_box, super_trophy</div>
+            </div>
+
+            <div class="command-block">
+                <code>give_equip equip_frag</code>
+                <div class="description">Give equipment to specified slot</div>
+                <div class="example">Examples: equip_frag, equip_smoke, equip_claymore</div>
+            </div>
+
+            <div class="command-block">
+                <code>equip_slot primary</code>
+                <div class="description">Equipment slot selection</div>
+                <div class="example">primary/1 or secondary/2</div>
+            </div>
+
+            <div class="command-block">
+                <code>equip_ammo 3</code>
+                <div class="description">Equipment count applied when using "give_equipment"</div>
+                <div class="example">Default: 3 | Examples: 5, 10</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_execution execution_mp_universal_ref_variant_17</code>
+                <div class="description">Set finishing move execution</div>
+                <div class="example">Changes your execution animation</div>
+            </div>
+
+            <div class="warning">
+                <strong>Warning:</strong> "fix_barriers" may cause issues in modes such as snd in some builds.
+            </div>
+        </div>
+
+        <!-- APPEARANCE -->
+        <div class="section" id="appearance">
+            <h2>
+                <img src="icons/jup_hud_icon_perks_ghost_tv.png" alt="" class="header-icon">
+                Appearance & Models
+            </h2>
+
+            <div class="command-block">
+                <code>set_body body_pilot_helicopter_british</code>
+                <div class="description">Set player body model</div>
+                <div class="example">Changes the full body model of your character</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_head head_mp_helicopter_crew</code>
+                <div class="description">Set player head model</div>
+                <div class="example">Changes only the head model</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_viewmodel pilot_viewmodel_arms</code>
+                <div class="description">Set viewmodel arms</div>
+                <div class="example">Changes the first-person arm model</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_suit iw8_defaultsuit_mp</code>
+                <div class="description">Set player suit/rig</div>
+                <div class="example">Examples: iw8_defaultsuit_mp, iw8_juggernaut_mp_rugby, iw8_zombie_mp</div>
+            </div>
+
+            <div class="command-block">
+                <code>play_gesture ges_visor_down</code>
+                <div class="description">Play gesture animation</div>
+                <div class="example">Examples: ges_visor_down, ges_zombie_superjumpcharge, ges_thumbs_up_mp</div>
+            </div>
+
+            <div class="command-block">
+                <code>stop_gesture ges_visor_down</code>
+                <div class="description">Stop gesture animation</div>
+                <div class="example">Stops the specified gesture</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_demeanor normal</code>
+                <div class="description">Set demeanor (format: demeanor+animation)</div>
+                <div class="example">Examples: normal, safe+iw8_ges_demeanor_safe</div>
+            </div>
+
+            <div class="command-block">
+                <code>invis 1</code>
+                <div class="description">Player invisibility</div>
+                <div class="example">0 = Visible, 1 = Invisible</div>
+            </div>
+
+            <div class="command-block">
+                <code>spin_mode 1</code>
+                <div class="description">Auto-rotate player view</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>spin_speed -600</code>
+                <div class="description">Rotation speed for spin mode</div>
+                <div class="example">Default: -600 | Examples: -300 (slow), -1200 (fast)</div>
+            </div>
+
+            <div class="command-block">
+                <code>head_tilt 45</code>
+                <div class="description">Camera tilt angle in degrees</div>
+                <div class="example">Default: 0 | Examples: 45, 90, 180</div>
+            </div>
+
+            <div class="command-block">
+                <code>upside_down 1</code>
+                <div class="description">Flip view 180 degrees</div>
+                <div class="example">0 = Normal, 1 = Upside down</div>
+            </div>
+        </div>
+
+        <!-- VISUALS & EFFECTS -->
+        <div class="section" id="visuals">
+            <h2>
+                <img src="icons/jup_hud_icon_perks_intel_jacker_legacy.png" alt="" class="header-icon">
+                Visuals & Effects
+            </h2>
+
+            <div class="command-block">
+                <code>nohud 1</code>
+                <div class="description">Hide all HUD elements</div>
+                <div class="example">0 = Show HUD, 1 = Hide HUD</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_vision nuke_global_aftermath</code>
+                <div class="description">Apply vision filter/preset</div>
+                <div class="example">Examples: nuke_global_aftermath, wp_smoke, respawn_camera_night, mpintro</div>
+            </div>
+
+            <div class="command-block">
+                <code>override_vision 1</code>
+                <div class="description">Clears all applied vision presets before applying new ones</div>
+                <div class="example">0 = Stack, 1 = Clear first</div>
+            </div>
+
+            <div class="command-block">
+                <code>omnvar ui_total_fade+1</code>
+                <div class="description">Set client omnvar (format: variable+value)</div>
+                <div class="example">Examples: ui_hide_hud+1, ui_options_menu+1</div>
+            </div>
+
+            <div class="command-block">
+                <code>omnvar_target self</code>
+                <div class="description">Target for omnvar changes</div>
+                <div class="example">self, team, or all</div>
+            </div>
+
+            <div class="command-block">
+                <code>scriptable burning+2</code>
+                <div class="description">Set scriptable part (format: part+state+duration)</div>
+                <div class="example">Examples: burning+0, burning+1+5, headVFX+zombieVision</div>
+            </div>
+
+            <div class="command-block">
+                <code>scriptable_target self</code>
+                <div class="description">Target for scriptable changes</div>
+                <div class="example">self, team, or all</div>
+            </div>
+
+            <div class="command-block">
+                <code>splash ranked_up_beta_max</code>
+                <div class="description">Show splash notification</div>
+                <div class="example">Shows notification splash to player(s)</div>
+            </div>
+
+            <div class="command-block">
+                <code>splash_target self</code>
+                <div class="description">Target for splash notifications</div>
+                <div class="example">self, team, or all</div>
+            </div>
+
+            <h3>Visual Effects (FX)</h3>
+
+            <div class="command-block">
+                <code>spawn_fx blood_left</code>
+                <div class="description">Spawn visual effect</div>
+                <div class="example">Special effects: blood_left, blood_right, blood_melee, shake, shellshock+0.5</div>
+            </div>
+
+            <div class="command-block">
+                <code>spawn_fx vfx/iw8_mp/perk/vfx_emp_drone_airexp.vfx</code>
+                <div class="description">Spawn FX by file path</div>
+                <div class="example">Full VFX paths for custom effects</div>
+            </div>
+
+            <div class="command-block">
+                <code>stop_fx vfx_emp_drone+tag_origin</code>
+                <div class="description">Stop FX (format: fx_name+tag)</div>
+                <div class="example">Stops the specified effect on tag</div>
+            </div>
+
+            <div class="command-block">
+                <code>fx_type world</code>
+                <div class="description">FX spawn type</div>
+                <div class="example">world, self, entity, ontag, onclient</div>
+            </div>
+
+            <div class="command-block">
+                <code>fx_duration 10</code>
+                <div class="description">FX duration in seconds</div>
+                <div class="example">Default: 10 | 999 = permanent</div>
+            </div>
+
+            <div class="command-block">
+                <code>fx_target self</code>
+                <div class="description">FX target location</div>
+                <div class="example">self or trace (crosshair)</div>
+            </div>
+
+            <h3>Vision Presets</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">Preview</th>
+                        <th>Preset</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/killcam_night.png" alt="killcam_night" class="icon-cell">
+                                <img src="screenshots/killcam_night.png" alt="killcam_night" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>killcam_night</td>
+                        <td>Dark toned effect</td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/nuke_global_aftermath.png" alt="nuke_global_aftermath" class="icon-cell">
+                                <img src="screenshots/nuke_global_aftermath.png" alt="nuke_global_aftermath" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>nuke_global_aftermath</td>
+                        <td>Nuke light rays</td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/nuke_global_flash.png" alt="nuke_global_flash" class="icon-cell">
+                                <img src="screenshots/nuke_global_flash.png" alt="nuke_global_flash" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>nuke_global_flash</td>
+                        <td>Nuke flash effect</td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/wp_smoke.png" alt="wp_smoke" class="icon-cell">
+                                <img src="screenshots/wp_smoke.png" alt="wp_smoke" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>wp_smoke</td>
+                        <td>Smoky ambient effect</td>
+                    </tr>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/respawn_camera_night.png" alt="respawn_camera_night" class="icon-cell">
+                                <img src="screenshots/respawn_camera_night.png" alt="respawn_camera_night" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td>respawn_camera_night</td>
+                        <td>Night respawn effect</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning">
+                <strong>Warning:</strong> Some omnvars like ui_total_fade can cause black screens and may crash the game in specific cases.
+            </div>
+        </div>
+
+        <!-- VEHICLES -->
+        <div class="section" id="vehicles">
+            <h2>
+                <img src="icons/hud_icon_vehicle_tac_rover.png" alt="" class="header-icon">
+                Vehicles
+            </h2>
+
+            <div class="command-block">
+                <code>spawn_vehicle atv</code>
+                <div class="description">Spawn vehicle by reference name</div>
+                <div class="example">Examples: atv, little_bird, cargo_truck, tac_rover</div>
+            </div>
+
+            <div class="command-block">
+                <code>vehicle_offset 100</code>
+                <div class="description">Vehicle spawn distance from player</div>
+                <div class="example">Default: 100 | Examples: 50, 150, 200</div>
+            </div>
+
+            <div class="command-block">
+                <code>vehicle_godmode 1</code>
+                <div class="description">Make spawned vehicle invincible</div>
+                <div class="example">0 = Off, 1 = On</div>
+            </div>
+
+            <div class="command-block">
+                <code>delete_vehicle 1</code>
+                <div class="description">Delete last spawned vehicle</div>
+                <div class="example">Set to 1 to delete</div>
+            </div>
+
+            <div class="tip">
+                <strong>Note:</strong> Vehicle availability depends on the map you're on. Only "atv" and "little_bird" are universally available afaik.
+            </div>
+        </div>
+
+        <!-- AUDIO -->
+        <div class="section" id="audio">
+            <h2>
+                <img src="icons/icon_ftue-ftus_audio_config_headphones.png" alt="" class="header-icon">
+                Audio
+            </h2>
+
+            <div class="command-block">
+                <code>play_sound laststand_heal_start</code>
+                <div class="description">Play sound alias locally</div>
+                <div class="example">Plays the specified sound effect</div>
+            </div>
+
+            <div class="command-block">
+                <code>stop_sound laststand_heal_start</code>
+                <div class="description">Stop playing sound alias</div>
+                <div class="example">Stops the specified sound</div>
+            </div>
+
+            <div class="command-block">
+                <code>set_submix mp_matchend_music</code>
+                <div class="description">Set audio submix</div>
+                <div class="example">Format: "name" or "name+fade" or "name+fade+lerp" | Empty string clears</div>
+            </div>
+
+            <div class="tip">
+                <strong>Finding Sounds:</strong> Sound aliases can be found in game dumps. Look for sounds used with playlocalsound() and similar.
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="section" id="admin">
+            <h2>
+                <img src="icons/ui_mp_br_squad_leader_main.png" alt="" class="header-icon">
+                Host
+            </h2>
+
+            <div class="warning">
+                <strong>Host Only:</strong> These dvars are only available to the game host.
+            </div>
+
+            <div class="command-block">
+                <code>list 1</code>
+                <div class="description">List all players with details</div>
+                <div class="example">Options: 1 = Basic, 2 = Detailed, 3 = Full info</div>
+            </div>
+
+            <div class="command-block">
+                <code>kick PlayerName</code>
+                <div class="description">Kick player by name or slot number</div>
+                <div class="example">Use exact player name or #slot number</div>
+            </div>
+
+            <div class="command-block">
+                <code>ban PlayerName</code>
+                <div class="description">Ban player by name or slot (XUID-based)</div>
+                <div class="example">Bans persist until server restart</div>
+            </div>
+
+        </div>
+
+        <!-- VFX -->
+        <div class="section" id="advanced-fx">
+            <h2>
+                <img src="icons/mgl_hud_audiovisualizer_explosion.png" alt="" class="header-icon">
+                VFX related
+            </h2>
+
+            <h3>VFX Examples</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>VFX Path</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>vfx/iw8_mp/perk/vfx_emp_drone_airexp.vfx</td><td>EMP drone explosion</td></tr>
+                    <tr><td>vfx/iw8_mp/killstreak/vfx_auav_death.vfx</td><td>UAV explosion</td></tr>
+                    <tr><td>vfx/iw8_mp/killstreak/vfx_ac130_flares.vfx</td><td>AC130 flares</td></tr>
+                    <tr><td>vfx/iw8_mp/killstreak/vfx_nuke_player_death_2.vfx</td><td>Nuke effect</td></tr>
+                    <tr><td>vfx/iw8/veh/scriptables/vfx_veh_explosion_sedan.vfx</td><td>Car explosion</td></tr>
+                    <tr><td>vfx/iw8_mp/killstreak/vfx_ac130_view_clouds.vfx</td><td>Cloud/dust effect</td></tr>
+                    <tr><td>vfx/iw8_mp/perk/vfx_hustle.vfx</td><td>Hustle perk effect</td></tr>
+                </tbody>
+            </table>
+
+            <h3>VFX Presets</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Shortcut</th>
+                        <th>Effect Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>blood_left</td><td>Blood spray left side</td></tr>
+                    <tr><td>blood_right</td><td>Blood spray right side</td></tr>
+                    <tr><td>blood_melee</td><td>Melee blood effect</td></tr>
+                    <tr><td>shake</td><td>Screen shake</td></tr>
+                    <tr><td>shellshock+0.5</td><td>Shellshock (duration)</td></tr>
+                    <tr><td>earthquake+0.7</td><td>Earthquake (intensity)</td></tr>
+                    <tr><td>rumble</td><td>Controller rumble</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- OMNVARS / SCRIPTABLES -->
+        <div class="section" id="omnvars">
+            <h2>
+                <img src="icons/icon_settings_fullscreen.png" alt="" class="header-icon">
+                Omnvars & Scriptables
+            </h2>
+
+            <h3>UI Omnvars</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Omnvar</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>ui_hide_hud+1</td><td>Hide HUD elements</td></tr>
+                    <tr><td>ui_hide_minimap+1</td><td>Hide minimap</td></tr>
+                    <tr><td>ui_options_menu+1</td><td>Current opened menu</td></tr>
+                    <tr><td>ui_predator_missile+1</td><td>Predator missile view</td></tr>
+                    <tr><td>ui_veh_current_seat+1</td><td>Vehicle seat indicator</td></tr>
+                    <tr><td>ui_securing+6</td><td>Securing objective state</td></tr>
+                    <tr><td>lb_color+0</td><td>Controller lightbar color, didnt test</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Battle Royale Omnvars</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Omnvar</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>ui_br_armor_amount+100</td><td>Armor display amount in percentage</td></tr>
+                    <tr><td>ui_br_player_position+1</td><td>Player rank position</td></tr>
+                    <tr><td>ui_br_circle_state+3</td><td>Gas circle state</td></tr>
+                    <tr><td>ui_br_circle_num+5</td><td>Circle number displayed</td></tr>
+                    <tr><td>ui_br_minimap_radius+500</td><td>Minimap radius</td></tr>
+                    <tr><td>ui_airplane_ads_active+1</td><td>placeholder</td></tr>
+                    <tr><td>ui_br_danger_warning+1</td><td>placeholder</td></tr>
+                    <tr><td>scriptable_loot_hide+0</td><td>Show all loot, even in prematch</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Scriptable Parts</h3>
+            <div class="command-block">
+                <code>scriptable burning+1</code>
+                <div class="description">Set burning state on</div>
+                <div class="example">Format: part+state or part+state+duration</div>
+            </div>
+
+            <div class="command-block">
+                <code>scriptable headVFX+zombieVision</code>
+                <div class="description">Zombie vision head effect</div>
+                <div class="example">Apply special head VFX</div>
+            </div>
+
+            <div class="warning">
+                <strong>Omnvars:</strong> ui_total_fade+1 and ui_world_fade+1 cause black screens and sometimes crashes, idk why.
+            </div>
+        </div>
+
+        <!-- GESTURES -->
+        <div class="section" id="gestures">
+            <h2>
+                <img src="icons/ui_gesture_west_side.png" alt="" class="header-icon">
+                Gestures
+            </h2>
+
+            <h3>Common Gestures</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gesture</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>ges_visor_down</td><td>placeholder</td></tr>
+                    <tr><td>ges_zombie_superjumpcharge</td><td>placeholder</td></tr>
+                    <tr><td>ges_thumbs_up_mp</td><td>placeholder</td></tr>
+                    <tr><td>ges_hold</td><td>placeholder</td></tr>
+                    <tr><td>ges_hack_lock_in</td><td>placeholder</td></tr>
+                    <tr><td>ges_antigrav_reaction</td><td>placeholder</td></tr>
+                    <tr><td>ges_zipline</td><td>placeholder</td></tr>
+                    <tr><td>iw8_ges_demeanor_safe</td><td>placeholder</td></tr>
+                    <tr><td>iw8_ges_plyr_gesture000</td><td>placeholder</td></tr>
+                    <tr><td>iw8_ges_plyr_gesture032</td><td>placeholder</td></tr>
+                    <tr><td>iw8_ges_plyr_gesture061</td><td>placeholder</td></tr>
+                    <tr><td>iw8_ges_plyr_gesture062</td><td>placeholder</td></tr>
+                    <tr><td>s4_mp_vm_ges_001</td><td>placeholder</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PERKS -->
+        <div class="section" id="perks">
+            <h2>
+                <img src="icons/hud_icon_loadout_specialist.png" alt="" class="header-icon">
+                Perks
+            </h2>
+
+            <h3>Common Perks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Perk Code</th>
+                        <th>Name</th>
+                        <th>Effect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>specialty_fastreload</td>   <td>Sleight of Hand</td><td>placeholder</td></tr>
+                    <tr><td>specialty_quickdraw</td>    <td>Quick Draw</td><td>placeholder</td></tr>
+                    <tr><td>specialty_stalker</td>      <td>Stalker</td><td>placeholder</td></tr>
+                    <tr><td>specialty_marathon</td>     <td>Marathon</td><td>placeholder</td></tr>
+                    <tr><td>specialty_ghost</td>        <td>Ghost</td><td>placeholder</td></tr>
+                    <tr><td>specialty_coldblooded</td>  <td>Cold Blooded</td><td>placeholder</td></tr>
+                    <tr><td>specialty_scavenger</td>    <td>Scavenger</td><td>placeholder</td></tr>
+                    <tr><td>specialty_tracker</td>      <td>Tracker</td><td>placeholder</td></tr>
+                    <tr><td>specialty_hardline</td>     <td>Hardline</td><td>placeholder</td></tr>
+                    <tr><td>specialty_bulletdamage</td> <td>Stopping Power</td><td>placeholder</td></tr>
+                    <tr><td>specialty_sprintfire</td>   <td>Tactical Sprint</td><td>placeholder</td></tr>
+                    <tr><td>specialty_gung_ho</td>      <td>Gung-Ho</td><td>placeholder</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- LOADOUTS -->
+        <div class="section" id="loadouts">
+            <h2>
+                <img src="icons/icon_loadout_gunsmith.png" alt="" class="header-icon">
+                Loudout/Class
+            </h2>
+
+            <div class="tip">
+                <strong>Why:</strong> setPrivateLoadout dvars allow you to use hidden / cut weapons / attachments [Example: Full-auto FR 5.56].
+            </div>
+
+            <h3>Loadout Structure Examples</h3>
+
+            <div class="command-block">
+                <code>setPrivateLoadout "loadouts" 1 "weaponSetups" 0 "weapon" "s4_mg_streak"</code>
+                <div class="description">Set weapon in loadout slot</div>
+                <div class="example">Loadout index, weapon slot, weapon reference</div>
+            </div>
+
+            <div class="command-block">
+                <code>setPrivateLoadout "loadouts" 0 "weaponSetups" 1 "camo" "camo_mp_t9mastery_diamond"</code>
+                <div class="description">Set weapon camo in loadout</div>
+                <div class="example">Apply camo to specific loadout weapon</div>
+            </div>
+
+            <div class="command-block">
+                <code>setPrivateLoadout "loadouts" 1 "weaponSetups" 1 "attachmentSetup" 0 "attachment" "ammomod_incendiary"</code>
+                <div class="description">Add attachment to loadout weapon</div>
+                <div class="example">Attachment slot 0-9 for different attachments</div>
+            </div>
+
+            <div class="command-block">
+                <code>setPrivateLoadout "loadouts" 0 "weaponSetups" 0 "variantID" 0</code>
+                <div class="description">Set weapon variant</div>
+                <div class="example">Variant ID for blueprint weapons</div>
+            </div>
+        </div>
+
+        <!-- MENU CONTROLS -->
+        <div class="section" id="menu">
+            <h2>
+                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="" class="header-icon">
+                Menu [ Unreleased ]
+            </h2>
+
+            <div class="tip">
+                <strong>Navigation:</strong> The in-game menu system uses controller/keyboard bindings for navigation.
+            </div>
+
+            <h3>Menu Controls</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Control</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Open/Close Menu</td><td>ADS + MELEE</td></tr>
+                    <tr><td>Scroll Up</td><td>ADS</td></tr>
+                    <tr><td>Scroll Down</td><td>FIRE</td></tr>
+                    <tr><td>Select Option</td><td>USE</td></tr>
+                    <tr><td>Go Back</td><td>LETHAL</td></tr>
+                    <tr><td>Previous Page</td><td>TACTICAL</td></tr>
+                    <tr><td>Next Page</td><td>MELEE</td></tr>
+                </tbody>
+            </table>
+
+            <div class="tip">
+                <strong>Note:</strong> The menu keeps the last opened page when reopened.
+            </div>
+        </div>
+
+        <!-- TIPS & NOTES -->
+        <div class="section" id="notes">
+            <h2>
+                <img src="icons/icon_global_patch_notes.png" alt="" class="header-icon">
+                Notes
+            </h2>
+
+            <h3>General Tips</h3>
+            <ul style="color: #b0b0b0; line-height: 2; margin-left: 20px;">
+                <li>Player listing shows the ID( #0, #1, #2, etc. ) that identifies each player</li>
+                <li>Bans persist until map restart</li>
+                <li>Some omnvars may cause crashes or unexpected stuff</li>
+                <li>Noclip can sometimes toggle when you dont want it to, especially when using melee weapons</li>
+                <li>Infinite ammo has issues with akimbo weapons in some of the latest builds</li>
+                <li>Barrier removal may break modes such as snd</li>
+            </ul>
+
+            <h3>Vehicle Notes</h3>
+            <ul style="color: #b0b0b0; line-height: 2; margin-left: 20px;">
+                <li>Vehicle availability depends on current map</li>
+                <li>"atv" and "little_bird" are universally initialized</li>
+                <li>Other vehicles are map-specific</li>
+            </ul>
+
+            <h3>Finding Resources</h3>
+            <ul style="color: #b0b0b0; line-height: 2; margin-left: 20px;">
+                <li><strong>Sound Aliases:</strong> Search dumps for sounds used with playlocalsound() and similar</li>
+                <li><strong>Scriptables / Omnvars:</strong> Search dumps for setscriptablepartstate() and setclientomnvar() calls</li>
+                <li><strong>Splash Messages:</strong> Search dumps or CSV files</li>
+                <li><strong>VFX Paths:</strong> Full paths start with vfx/</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Call of Duty: Modern Warfare @elbasedd's Script Documentation</p>
+            <p>⚠️ For educational purposes only. Financed by NiggaChain.</p>
+            <p style="margin-top: 20px; color: #666;">Last Updated: Idk</p>
+        </footer>
+    </div>
+
+    <script>
+        const searchBox = document.getElementById('searchBox');
+        const sections = document.querySelectorAll('.section');
+
+        searchBox.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (text.includes(searchTerm) || searchTerm === '') {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        function createFloatingElements() {
+            const floatingBg = document.getElementById('floatingBg');
+
+            const floatingImages = [
+                'float/frontend_cod_hq_logo.png',
+                'float/ftus_beta_account_gate_atvi_logo.png',
+                'float/iw9_icon_attachment_manufacturer_fss_sm.png',
+                'float/iw9_icon_attachment_manufacturer_tanto.png',
+                'float/iw9_icon_attachment_manufacturer_xrk.png',
+                'float/iw9_icon_attachment_manufacturer_zlr_sm.png',
+                'float/logo_activision.png',
+                'float/logo_beenox.png',
+                'float/logo_cod_warzone_mw.png',
+                'float/logo_infinityward_textonly.png',
+            ];
+            
+            const sizes = ['float-small', 'float-medium', 'float-large'];
+            const numberOfElements = 35;
+            
+            for (let i = 0; i < numberOfElements; i++) {
+                const floatItem = document.createElement('img');
+                floatItem.className = 'float-item ' + sizes[Math.floor(Math.random() * sizes.length)];
+                floatItem.src = floatingImages[Math.floor(Math.random() * floatingImages.length)];
+                floatItem.style.left = Math.random() * 100 + '%';
+                floatItem.style.top = (100 + Math.random() * 25) + 'vh';
+                floatItem.style.animationDuration = (15 + Math.random() * 50) + 's';
+                floatItem.style.animationDelay = (-Math.random() * 50) + 's';
+                floatItem.onerror = function() {
+                    this.style.display = 'none';
+                };
+                
+                floatingBg.appendChild(floatItem);
+            }
+        }
+
+        window.addEventListener('load', createFloatingElements);
+    </script>
+</body>
+</html>
