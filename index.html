@@ -541,7 +541,6 @@
                 <li><a href="#appearance"><img src="icons/jup_hud_icon_perks_ghost_tv.png" alt="" class="icon-img"> Appearance</a></li>
                 <li><a href="#visuals"><img src="icons/jup_hud_icon_perks_intel_jacker_legacy.png" alt="" class="icon-img"> Visuals</a></li>
                 <li><a href="#vehicles"><img src="icons/hud_icon_vehicle_tac_rover.png" alt="" class="icon-img"> Vehicles</a></li>
-                <li><a href="#audio"><img src="icons/icon_ftue-ftus_audio_config_headphones.png" alt="" class="icon-img"> Audio</a></li>
                 <li><a href="#admin"><img src="icons/ui_mp_br_squad_leader_main.png" alt="" class="icon-img"> Admin</a></li>
                 <li><a href="#advanced-fx"><img src="icons/mgl_hud_audiovisualizer_explosion.png" alt="" class="icon-img"> VFX</a></li>
                 <li><a href="#omnvars"><img src="icons/icon_settings_fullscreen.png" alt="" class="icon-img"> Omnvars</a></li>
@@ -1373,36 +1372,6 @@
 
             <div class="tip">
                 <strong>Note:</strong> Vehicle availability depends on the map you're on. Only "atv" and "little_bird" are universally available afaik.
-            </div>
-        </div>
-
-        <!-- AUDIO -->
-        <div class="section" id="audio">
-            <h2>
-                <img src="icons/icon_ftue-ftus_audio_config_headphones.png" alt="" class="header-icon">
-                Audio
-            </h2>
-
-            <div class="command-block">
-                <code>play_sound laststand_heal_start</code>
-                <div class="description">Play sound alias locally</div>
-                <div class="example">Plays the specified sound effect</div>
-            </div>
-
-            <div class="command-block">
-                <code>stop_sound laststand_heal_start</code>
-                <div class="description">Stop playing sound alias</div>
-                <div class="example">Stops the specified sound</div>
-            </div>
-
-            <div class="command-block">
-                <code>set_submix mp_matchend_music</code>
-                <div class="description">Set audio submix</div>
-                <div class="example">Format: "name" or "name+fade" or "name+fade+lerp" | Empty string clears</div>
-            </div>
-
-            <div class="tip">
-                <strong>Finding Sounds:</strong> Sound aliases can be found in game dumps. Look for sounds used with playlocalsound() and similar.
             </div>
         </div>
 
