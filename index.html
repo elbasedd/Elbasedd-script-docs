@@ -41,63 +41,63 @@
         }
 
         header {
-        background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-        padding: 40px 20px;
-        text-align: center;
-        border-radius: 10px;
-        margin-bottom: 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        position: relative;
-        overflow: hidden;
-    }
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
 
-    header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: 
-            url('art/menu_keyart_cross_mw_layer01.png'), 
-            url('art/frontend_popup_keyart_coldwar-inverted.png'),
-            url('art/frontend_popup_keyart_vanguard.png');
-        background-size: cover, cover, cover;
-        background-position: 0% center, 100% center, 200% center;
-        background-repeat: no-repeat, no-repeat, no-repeat;
-        background-blend-mode: overlay;
-        animation: slideBackground 15s infinite;
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    header::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(255, 107, 53, 0.3);
-        border-radius: 10px;
-        z-index: 2;
-        pointer-events: none;
-    }
-
-    @keyframes slideBackground {
-        0% {
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url('art/menu_keyart_cross_mw_layer01.png'), 
+                url('art/frontend_popup_keyart_coldwar-inverted.png'),
+                url('art/frontend_popup_keyart_vanguard.png');
+            background-size: cover, cover, cover;
             background-position: 0% center, 100% center, 200% center;
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-blend-mode: overlay;
+            animation: slideBackground 15s infinite;
+            z-index: 1;
+            pointer-events: none;
         }
-        33.33% {
-            background-position: -100% center, 0% center, 100% center;
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 107, 53, 0.3);
+            border-radius: 10px;
+            z-index: 2;
+            pointer-events: none;
         }
-        66.66% {
-            background-position: -200% center, -100% center, 0% center;
+
+        @keyframes slideBackground {
+            0% {
+                background-position: 0% center, 100% center, 200% center;
+            }
+            33.33% {
+                background-position: -100% center, 0% center, 100% center;
+            }
+            66.66% {
+                background-position: -200% center, -100% center, 0% center;
+            }
+            100% {
+                background-position: -300% center, -200% center, -100% center;
+            }
         }
-        100% {
-            background-position: -300% center, -200% center, -100% center;
-        }
-    }
 
         header h1, header p {
             position: relative;
@@ -109,11 +109,38 @@
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         header p {
             color: #fff;
             font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 10px;
+            }
+            
+            header h1 {
+                font-size: 1.5em;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .bigass-icon {
+                width: 120px;
+                height: auto;
+                margin-right: 0;
+            }
+            
+            header p {
+                font-size: 0.9em;
+            }
         }
 
         nav {
@@ -235,6 +262,8 @@
             margin: 15px 0;
             border-radius: 8px;
             border-left: 3px solid #4CAF50;
+            position: relative;
+            z-index: 1;
         }
 
         .command-block code {
@@ -261,6 +290,8 @@
             padding: 15px;
             margin: 15px 0;
             border-radius: 5px;
+            position: relative;
+            z-index: 1;
         }
 
         .warning::before {
@@ -274,6 +305,8 @@
             padding: 15px;
             margin: 15px 0;
             border-radius: 5px;
+            position: relative;
+            z-index: 1;
         }
 
         .tip::before {
@@ -330,16 +363,69 @@
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: 20px 10px;
+            }
+            
             header h1 {
-                font-size: 1.8em;
+                font-size: 1.5em;
+                flex-direction: column;
+                gap: 10px;
             }
 
+            .bigass-icon {
+                width: 120px;
+                height: auto;
+                margin-right: 0;
+            }
+            
+            header p {
+                font-size: 0.9em;
+            }
+
+            nav {
+                position: relative;
+                top: 0;
+            }
+            
             nav ul {
                 flex-direction: column;
+                gap: 8px;
+            }
+            
+            nav a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px 15px;
+                width: 100%;
+            }
+            
+            .icon-img {
+                width: 24px;
+                height: 24px;
             }
 
             .section {
                 padding: 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
+            }
+            
+            .header-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            table {
+                font-size: 0.85em;
+            }
+            
+            .icon-cell img {
+                min-width: 80px;
+                z-index: 1;
             }
         }
 
@@ -386,11 +472,6 @@
         .weapon-row:hover, .camo-row:hover {
             background: #3a3a3a !important;
             transform: translateX(5px);
-        }
-
-        .icon-cell {
-            text-align: center;
-            width: 60px;
         }
 
         .category-badge {
@@ -469,14 +550,14 @@
         .weapon-preview-large,
         .camo-preview-large {
             display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-left: 10px;
+            width: 600px;
             max-width: 90vw;
             height: auto;
-            z-index: 10000;
+            z-index: 10001;
             border: 3px solid #ff6b35;
             border-radius: 8px;
             background: #1a1a1a;
@@ -488,7 +569,39 @@
         .weapon-preview-container:hover .weapon-preview-large,
         .camo-preview-container:hover .camo-preview-large {
             display: block;
-            animation: fadeIn 0.2s ease;
+            z-index: 1;
+        }
+
+        .camo-preview-mini {
+            text-align: center;
+            width: 40px;
+            height: auto;
+            max-width: 60px;
+            max-height: 60px;
+            object-fit: contain;
+        }
+
+        .camo-preview-large {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-left: 10px;
+            width: 400px;
+            max-width: 90vw;
+            height: auto;
+            z-index: 10001;
+            border: 3px solid #ff6b35;
+            border-radius: 8px;
+            background: #1a1a1a;
+            padding: 15px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+        }
+
+        #visuals .weapon-preview-large {
+            width: 425px;
+            max-width: 90vw;
         }
 
         @keyframes fadeIn {
@@ -509,12 +622,21 @@
             background: #1a1a1a;
             border-radius: 8px;
             overflow: visible;
+            position: relative;
+            z-index: -1;
         }
 
         .icon-cell {
             text-align: center;
-            width: 100px;
+            width: 33%;
             height: auto;
+            z-index: 1;
+        }
+
+        .icon-cell img {
+            max-width: 100%;
+            height: auto;
+            min-width: 150px;
         }
     </style>
 </head>
@@ -1332,6 +1454,202 @@
                 </tbody>
             </table>
 
+            <h3>Ingame Visual Dvars</h3>
+            <div class="command-block">
+                <code>r_diffuseColorScale 1.0</code>
+                <div class="description">Effects, fog, muzzle flash and scripted lights intensity</div>
+                <div class="example">Default: 1.0 | Range: 0-1024</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">1.0 (Default)</th>
+                        <th class="icon-cell">100.0</th>
+                        <th class="icon-cell">1000.0</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/default_screenshot.png" alt="r_diffuseColorScale 1" class="icon-cell">
+                                <img src="screenshots/default_screenshot.png" alt="r_diffuseColorScale 1" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/diffuse100.png" alt="r_diffuseColorScale 100.0" class="icon-cell">
+                                <img src="screenshots/diffuse100.png" alt="r_diffuseColorScale 100.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/diffuse1000.png" alt="r_diffuseColorScale 1000.0" class="icon-cell">
+                                <img src="screenshots/diffuse1000.png" alt="r_diffuseColorScale 1000.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="command-block">
+                <code>r_secondarySpecularScale 1.0</code>
+                <div class="description">Map surface reflection intensity</div>
+                <div class="example">Default: 1.0 | Range: 0-1024</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">1.0 (Default)</th>
+                        <th class="icon-cell">10.0</th>
+                        <th class="icon-cell">100.0</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/default_screenshot.png" alt="r_specularColorScale 1.0" class="icon-cell">
+                                <img src="screenshots/default_screenshot.png" alt="r_specularColorScale 1.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/specular10.png" alt="r_specularColorScale 10.0" class="icon-cell">
+                                <img src="screenshots/specular10.png" alt="r_specularColorScale 10.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/specular100.png" alt="r_specularColorScale 100.0" class="icon-cell">
+                                <img src="screenshots/specular100.png" alt="r_specularColorScale 100.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="command-block">
+                <code>r_tonemapUniversalBaseExposureAdjust 0.0</code>
+                <div class="description">Overall scene exposure adjustment</div>
+                <div class="example">Default: 0.0 | Range: -20.0 to 20.0</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">-5.0</th>
+                        <th class="icon-cell">0.0 (Default)</th>
+                        <th class="icon-cell">5.0</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/exposure-5.png" alt="r_colorimetryUniversalTonemapExposureAdjust -5.0" class="icon-cell">
+                                <img src="screenshots/exposure-5.png" alt="r_colorimetryUniversalTonemapExposureAdjust -5.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/default_screenshot.png" alt="r_colorimetryUniversalTonemapExposureAdjust 0.0" class="icon-cell">
+                                <img src="screenshots/default_screenshot.png" alt="r_colorimetryUniversalTonemapExposureAdjust 0.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/exposure5.png" alt="r_colorimetryUniversalTonemapExposureAdjust 5.0" class="icon-cell">
+                                <img src="screenshots/exposure5.png" alt="r_colorimetryUniversalTonemapExposureAdjust 5.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="command-block">
+                <code>r_secondaryDiffuseScale 1.0</code>
+                <div class="description">Map surface lighting intensity</div>
+                <div class="example">Default: 1.0 | Range: 0 - 1024</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">0.0</th>
+                        <th class="icon-cell">1.0 (Default)</th>
+                        <th class="icon-cell">2.0</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/default_screenshot.png" alt="r_secondaryDiffuseScale 0.0" class="icon-cell">
+                                <img src="screenshots/default_screenshot.png" alt="r_secondaryDiffuseScale 0.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/reflection10.png" alt="r_secondaryDiffuseScale 1.0" class="icon-cell">
+                                <img src="screenshots/reflection10.png" alt="r_secondaryDiffuseScale 1.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/reflection100.png" alt="r_secondaryDiffuseScale 2.0" class="icon-cell">
+                                <img src="screenshots/reflection100.png" alt="r_secondaryDiffuseScale 2.0" class="weapon-preview-large">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="command-block">
+                <code>r_whiteBalanceTweaks 0</code>
+                <div class="description">Enables temperature presets ( required for r_whiteBalanceIlluminant )</div>
+                <div class="example">0 = Disabled (default), 1 = Enabled</div>
+            </div>
+
+            <div class="command-block">
+                <code>r_whiteBalanceIlluminant 0</code>
+                <div class="description">Visual temperature preset ( requires r_whiteBalanceTweaks 1 )</div>
+                <div class="example">Default: 0 | Range: 0-21</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="icon-cell">Preset 3</th>
+                        <th class="icon-cell">Preset 8</th>
+                        <th class="icon-cell">Preset 14</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="weapon-row">
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/temp3.png" alt="r_whiteBalanceIlluminant 3" class="icon-cell">
+                                <img src="screenshots/temp3.png" alt="r_whiteBalanceIlluminant 3" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/temp8.png" alt="r_whiteBalanceIlluminant 8" class="icon-cell">
+                                <img src="screenshots/temp8.png" alt="r_whiteBalanceIlluminant 8" class="weapon-preview-large">
+                            </div>
+                        </td>
+                        <td class="icon-cell">
+                            <div class="weapon-preview-container">
+                                <img src="screenshots/temp14.png" alt="r_whiteBalanceIlluminant 14" class="icon-cell">
+                                <img src="screenshots/temp14.png" alt="r_whiteBalanceIlluminant 14" class="weapon-preview-large">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip">
+                <strong>Tip:</strong> Can be combined to emulate night ambience in day maps and viceversa.
+            </div>
+
             <div class="warning">
                 <strong>Warning:</strong> Some omnvars like ui_total_fade can cause black screens and may crash the game in specific cases.
             </div>
@@ -1668,8 +1986,27 @@
                 floatingBg.appendChild(floatItem);
             }
         }
-
         window.addEventListener('load', createFloatingElements);
+
+        document.querySelectorAll('.weapon-preview-container, .camo-preview-container').forEach(container => {
+            container.addEventListener('mouseenter', function() {
+                const preview = this.querySelector('.weapon-preview-large, .camo-preview-large');
+                const rect = this.getBoundingClientRect();
+                const previewWidth = 600;
+                
+                if (rect.right + previewWidth + 10 > window.innerWidth) {
+                    preview.style.left = 'auto';
+                    preview.style.right = '100%';
+                    preview.style.marginLeft = '0';
+                    preview.style.marginRight = '10px';
+                } else {
+                    preview.style.left = '100%';
+                    preview.style.right = 'auto';
+                    preview.style.marginLeft = '10px';
+                    preview.style.marginRight = '0';
+                }
+            });
+        });
     </script>
 </body>
 </html>
