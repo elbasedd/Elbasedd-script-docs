@@ -66,9 +66,36 @@
             background-position: 0% center, 100% center, 200% center;
             background-repeat: no-repeat, no-repeat, no-repeat;
             background-blend-mode: overlay;
-            animation: slideBackground 15s infinite;
+            animation: fadeInBackground 1.5s ease-out forwards, slideBackground 25s 1.5s infinite linear;
             z-index: 1;
             pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes fadeInBackground {
+            0% {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideBackground {
+            0% {
+                background-position: 0% center, 100% center, 200% center;
+            }
+            33.33% {
+                background-position: -100% center, 0% center, 100% center;
+            }
+            66.66% {
+                background-position: -200% center, -100% center, 0% center;
+            }
+            100% {
+                background-position: -300% center, -200% center, -100% center;
+            }
         }
 
         header::after {
@@ -186,13 +213,46 @@
             text-decoration: none;
             padding: 8px 15px;
             border-radius: 5px;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 600;
+            position: relative;
         }
 
         nav a:hover {
             background: #ff6b35;
             color: #fff;
+        }
+
+        nav a.active {
+            background: #ff6b35;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.8);
+            transform: scale(1.08);
+            font-weight: 700;
+        }
+
+        nav a.active::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 2px solid #ff6b35;
+            border-radius: 7px;
+            animation: pulseGlow 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
         }
 
         .section {
@@ -227,17 +287,18 @@
             z-index: 2;
         }
 
-        #movement { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
-        #weapons { background-image: url('art/perk_icon_famenu_keyart_cross_coldwar_layer01stswap.png'); }
-        #player { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
-        #appearance { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
-        #visuals { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
-        #vehicles { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
-        #audio { background-image: url('art/icon_ftue-menu_keyart_cross_mw_layer01.png'); }
-        #admin { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
-        #omnvars { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
-        #gestures { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
-        #perks { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
+        #movement { background-image: url('art/jup_ui_sp_operator_chemical.png'); }
+        #weapons { background-image: url('art/menu_keyart_sp_campaign_layer_01.png'); }
+        #player { background-image: url('art/jup_ui_sp_operator_dam.png'); }
+        #appearance { background-image: url('art/jup_ui_sp_operator_flashback.png'); }
+        #visuals { background-image: url('art/menu_keyart_sp_campaign_layer_01.png'); }
+        #vehicles { background-image: url('art/jup_ui_sp_operator_military.png'); }
+        #audio { background-image: url('art/icon_ftue-jup_ui_sp_operator_oligarch.png'); }
+        #admin { background-image: url('art/jup_ui_sp_operator_shippingport.png'); }
+        #omnvars { background-image: url('art/menu_keyart_cross_vanguard_layer01.png'); }
+        #gestures { background-image: url('art/jup_ui_sp_operator_skyhook.png'); }
+        #perks { background-image: url('art/jup_ui_sp_operator_winterassault.png'); }
+        #bots { background-image: url('art/jup_ui_sp_operator_silo.png'); }
         #menu { background-image: url('art/menu_keyart_cross_mw_layer01.png'); }
         #notes { background-image: url('art/menu_keyart_cross_coldwar_layer01.png'); }
 
@@ -638,6 +699,15 @@
             height: auto;
             min-width: 150px;
         }
+
+        html {
+            scroll-padding-top: 120px;
+        }
+
+        a {
+        color: #f7931e;
+        }
+
     </style>
 </head>
 <body>
@@ -666,7 +736,8 @@
                 <li><a href="#omnvars"><img src="icons/icon_settings_fullscreen.png" alt="" class="icon-img"> Omnvars</a></li>
                 <li><a href="#gestures"><img src="icons/ui_gesture_west_side.png" alt="" class="icon-img"> Gestures</a></li>
                 <li><a href="#perks"><img src="icons/hud_icon_loadout_specialist.png" alt="" class="icon-img"> Perks</a></li>
-                <li><a href="#menu"><img src="placeholders/menu_keyart_devplaylist_button.png" alt="" class="icon-img"> Menu</a></li>
+                <li><a href="#bots"><img src="icons/perk_icon_stance.png" alt="" class="icon-img"> Bots</a></li>
+                <li><a href="#menu"><img src="art/niggachain.png" alt="" class="icon-img"> Menu</a></li>
                 <li><a href="#notes"><img src="icons/icon_global_patch_notes.png" alt="" class="icon-img"> Notes</a></li>
             </ul>
         </nav>
@@ -776,14 +847,14 @@
 
             <div class="command-block">
                 <code>weapon_variant 0</code>
-                <div class="description">Set weapon variant ID / Variant when using the "give_weapon" dvar</div>
-                <div class="example">-1 = Random camo, 0-999 = Specific variant</div>
+                <div class="description">Set weapon variant / blueprint when using the "give_weapon" dvar</div>
+                <div class="example">Changes the variant / blueprint of the weapons given via "give_weapon" dvar</div>
             </div>
 
             <div class="command-block">
                 <code>give_variant 15</code>
-                <div class="description">Apply variant to current weapon</div>
-                <div class="example">Changes the variant of your currently held weapon</div>
+                <div class="description">Apply variant / blueprint to current weapon</div>
+                <div class="example">Changes the variant / blueprint of your currently held weapon</div>
             </div>
 
             <div class="command-block">
@@ -826,7 +897,6 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="icon-cell">Preview</th>
                         <th>Reference</th>
                         <th>Name</th>
                         <th>Game</th>
@@ -834,90 +904,37 @@
                 </thead>
                 <tbody>
                     <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Streak" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Streak" class="weapon-preview-large">
-                            </div>
-                        </td>
-                        <td>s4_mg_streak</td>
-                        <td>placeholder</td>
-                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
-                    </tr>
-                    <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="PILA" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="PILA" class="weapon-preview-large">
-                            </div>
-                        </td>
                         <td>s4_la_walpha2</td>
-                        <td>placeholder</td>
+                        <td>Frankegun ( Explosive minigun )</td>
                         <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
                     </tr>
                     <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="3-Line Rifle" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="3-Line Rifle" class="weapon-preview-large">
-                            </div>
-                        </td>
                         <td>s4_mr_lecho</td>
-                        <td>placeholder</td>
+                        <td>Lee Enfield ( Vanguard campaign exclusive )</td>
                         <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
                     </tr>
                     <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Minigun" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Minigun" class="weapon-preview-large">
-                            </div>
-                        </td>
                         <td>iw8_lm_dblmg</td>
                         <td>Minigun</td>
                         <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
                     </tr>
                     <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Explosive Crossbow" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Explosive Crossbow" class="weapon-preview-large">
-                            </div>
-                        </td>
                         <td>iw8_sn_t9explosivebow</td>
-                        <td>Explosive Crossbow</td>
+                        <td>Explosive Bow ( ColdWar / Warzone killstreak )</td>
                         <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
                     </tr>
                     <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 25mm" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 25mm" class="weapon-preview-large">
-                            </div>
-                        </td>
-                        <td>ac130_25mm</td>
+                        <td>ac130_25mm_mp</td>
                         <td>AC-130 25mm Cannon</td>
                         <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
                     </tr>
                     <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 40mm" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 40mm" class="weapon-preview-large">
-                            </div>
-                        </td>
-                        <td>ac130_40mm</td>
+                        <td>ac130_40mm_mp</td>
                         <td>AC-130 40mm Cannon</td>
                         <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
                     </tr>
                     <tr class="weapon-row">
-                        <td class="icon-cell">
-                            <div class="weapon-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 105mm" class="icon-cell">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="AC-130 105mm" class="weapon-preview-large">
-                            </div>
-                        </td>
-                        <td>ac130_105mm</td>
+                        <td>ac130_105mm_mp</td>
                         <td>AC-130 105mm Cannon</td>
                         <td><img src="icons/icon_social_game_mw.png" alt="Modern Warfare" title="Modern Warfare" class="icon-preview"></td>
                     </tr>
@@ -1046,12 +1063,24 @@
                         <td>Dark Aether</td>
                         <td><img src="icons/icon_social_game_coldwar.png" alt="Cold War" title="Cold War" class="icon-preview"></td>
                     </tr>
+                    
+                    <tr class="camo-row">
+                        <td class="icon-cell">
+                            <div class="camo-preview-container">
+                                <img src="placeholders/placeholder_x.png" alt="Gold" class="camo-preview-mini">
+                                <img src="placeholders/placeholder_x.png" alt="Gold" class="camo-preview-large">
+                            </div>
+                        </td>
+                        <td>s4_camo_00a</td>
+                        <td>Unused Diamond Camo</td>
+                        <td><img src="icons/icon_social_game_vanguard.png" alt="Vanguard" title="Vanguard" class="icon-preview"></td>
+                    </tr>
 
                     <tr class="camo-row">
                         <td class="icon-cell">
                             <div class="camo-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Gold" class="camo-preview-mini">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Gold" class="camo-preview-large">
+                                <img src="placeholders/placeholder_x.png" alt="Gold" class="camo-preview-mini">
+                                <img src="placeholders/placeholder_x.png" alt="Gold" class="camo-preview-large">
                             </div>
                         </td>
                         <td>s4_camo_11a</td>
@@ -1061,8 +1090,8 @@
                     <tr class="camo-row">
                         <td class="icon-cell">
                             <div class="camo-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Diamond" class="camo-preview-mini">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Diamond" class="camo-preview-large">
+                                <img src="placeholders/placeholder_x.png" alt="Diamond" class="camo-preview-mini">
+                                <img src="placeholders/placeholder_x.png" alt="Diamond" class="camo-preview-large">
                             </div>
                         </td>
                         <td>s4_camo_11b</td>
@@ -1072,8 +1101,8 @@
                     <tr class="camo-row">
                         <td class="icon-cell">
                             <div class="camo-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Atomic" class="camo-preview-mini">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Atomic" class="camo-preview-large">
+                                <img src="placeholders/placeholder_x.png" alt="Atomic" class="camo-preview-mini">
+                                <img src="placeholders/placeholder_x.png" alt="Atomic" class="camo-preview-large">
                             </div>
                         </td>
                         <td>s4_camo_11c</td>
@@ -1083,8 +1112,8 @@
                     <tr class="camo-row">
                         <td class="icon-cell">
                             <div class="camo-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Golden Viper" class="camo-preview-mini">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Golden Viper" class="camo-preview-large">
+                                <img src="placeholders/placeholder_x.png" alt="Golden Viper" class="camo-preview-mini">
+                                <img src="placeholders/placeholder_x.png" alt="Golden Viper" class="camo-preview-large">
                             </div>
                         </td>
                         <td>s4_camo_11a_zm</td>
@@ -1094,8 +1123,8 @@
                     <tr class="camo-row">
                         <td class="icon-cell">
                             <div class="camo-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Plague Diamond" class="camo-preview-mini">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Plague Diamond" class="camo-preview-large">
+                                <img src="placeholders/placeholder_x.png" alt="Plague Diamond" class="camo-preview-mini">
+                                <img src="placeholders/placeholder_x.png" alt="Plague Diamond" class="camo-preview-large">
                             </div>
                         </td>
                         <td>s4_camo_11b_zm</td>
@@ -1105,8 +1134,8 @@
                     <tr class="camo-row">
                         <td class="icon-cell">
                             <div class="camo-preview-container">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Aether" class="camo-preview-mini">
-                                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="Dark Aether" class="camo-preview-large">
+                                <img src="placeholders/placeholder_x.png" alt="Dark Aether" class="camo-preview-mini">
+                                <img src="placeholders/placeholder_x.png" alt="Dark Aether" class="camo-preview-large">
                             </div>
                         </td>
                         <td>s4_camo_11c_zm</td>
@@ -1222,7 +1251,7 @@
             <div class="command-block">
                 <code>set_body body_pilot_helicopter_british</code>
                 <div class="description">Set player body model</div>
-                <div class="example">Changes the full body model of your character</div>
+                <div class="example">Examples: fullbody_zombie_a, military_crate_field_upgrade_01, art_stadium_ball, veh8_mil_air_acharlie130_magma_animate</div>
             </div>
 
             <div class="command-block">
@@ -1233,8 +1262,8 @@
 
             <div class="command-block">
                 <code>set_viewmodel pilot_viewmodel_arms</code>
-                <div class="description">Set viewmodel arms</div>
-                <div class="example">Changes the first-person arm model</div>
+                <div class="description">Set first person viewmodel( Arms )</div>
+                <div class="example">Examples: viewmodel_mp_hidden, viewmodel_mp_base_iw8, vm_arms_zombie_a</div>
             </div>
 
             <div class="command-block">
@@ -1332,7 +1361,7 @@
             <div class="command-block">
                 <code>scriptable burning+2</code>
                 <div class="description">Set scriptable part (format: part+state+duration)</div>
-                <div class="example">Examples: burning+0, burning+1+5, headVFX+zombieVision</div>
+                <div class="example">Examples: burning+0, burning+1+5, WeaponVFXViewmodel+flamingKnife, WeaponVFXViewmodel+electricKnife, WeaponVFXViewmodel+neutral</div>
             </div>
 
             <div class="command-block">
@@ -1351,44 +1380,6 @@
                 <code>splash_target self</code>
                 <div class="description">Target for splash notifications</div>
                 <div class="example">self, team, or all</div>
-            </div>
-
-            <h3>Visual Effects (FX)</h3>
-
-            <div class="command-block">
-                <code>spawn_fx blood_left</code>
-                <div class="description">Spawn visual effect</div>
-                <div class="example">Special effects: blood_left, blood_right, blood_melee, shake, shellshock+0.5</div>
-            </div>
-
-            <div class="command-block">
-                <code>spawn_fx vfx/iw8_mp/perk/vfx_emp_drone_airexp.vfx</code>
-                <div class="description">Spawn FX by file path</div>
-                <div class="example">Full VFX paths for custom effects</div>
-            </div>
-
-            <div class="command-block">
-                <code>stop_fx vfx_emp_drone+tag_origin</code>
-                <div class="description">Stop FX (format: fx_name+tag)</div>
-                <div class="example">Stops the specified effect on tag</div>
-            </div>
-
-            <div class="command-block">
-                <code>fx_type world</code>
-                <div class="description">FX spawn type</div>
-                <div class="example">world, self, entity, ontag, onclient</div>
-            </div>
-
-            <div class="command-block">
-                <code>fx_duration 10</code>
-                <div class="description">FX duration in seconds</div>
-                <div class="example">Default: 10 | 999 = permanent</div>
-            </div>
-
-            <div class="command-block">
-                <code>fx_target self</code>
-                <div class="description">FX target location</div>
-                <div class="example">self or trace (crosshair)</div>
             </div>
 
             <h3>Vision Presets</h3>
@@ -1758,12 +1749,9 @@
                 </thead>
                 <tbody>
                     <tr><td>ui_br_armor_amount+100</td><td>Armor display amount in percentage</td></tr>
-                    <tr><td>ui_br_player_position+1</td><td>Player rank position</td></tr>
                     <tr><td>ui_br_circle_state+3</td><td>Gas circle state</td></tr>
                     <tr><td>ui_br_circle_num+5</td><td>Circle number displayed</td></tr>
                     <tr><td>ui_br_minimap_radius+500</td><td>Minimap radius</td></tr>
-                    <tr><td>ui_airplane_ads_active+1</td><td>placeholder</td></tr>
-                    <tr><td>ui_br_danger_warning+1</td><td>placeholder</td></tr>
                     <tr><td>scriptable_loot_hide+0</td><td>Show all loot, even in prematch</td></tr>
                 </tbody>
             </table>
@@ -1802,19 +1790,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>ges_visor_down</td><td>placeholder</td></tr>
-                    <tr><td>ges_zombie_superjumpcharge</td><td>placeholder</td></tr>
-                    <tr><td>ges_thumbs_up_mp</td><td>placeholder</td></tr>
-                    <tr><td>ges_hold</td><td>placeholder</td></tr>
-                    <tr><td>ges_hack_lock_in</td><td>placeholder</td></tr>
-                    <tr><td>ges_antigrav_reaction</td><td>placeholder</td></tr>
-                    <tr><td>ges_zipline</td><td>placeholder</td></tr>
-                    <tr><td>iw8_ges_demeanor_safe</td><td>placeholder</td></tr>
-                    <tr><td>iw8_ges_plyr_gesture000</td><td>placeholder</td></tr>
-                    <tr><td>iw8_ges_plyr_gesture032</td><td>placeholder</td></tr>
-                    <tr><td>iw8_ges_plyr_gesture061</td><td>placeholder</td></tr>
-                    <tr><td>iw8_ges_plyr_gesture062</td><td>placeholder</td></tr>
-                    <tr><td>s4_mp_vm_ges_001</td><td>placeholder</td></tr>
+                    <tr><td>ges_visor_down</td><td>Gas mask removal gesture</td></tr>
+                    <tr><td>ges_zombie_superjumpcharge</td><td>Zombie jump animation ( Holds hands up until you interrupt it via throwing a lethal for example )</td></tr>
+                    <tr><td>ges_thumbs_up_mp</td><td>Leftover thumbs up gesture</td></tr>
+                    <tr><td>ges_hold</td><td>Hold fist gesture</td></tr>
+                    <tr><td>ges_hack_lock_in</td><td>Places left arm forward until it gets interrupted</td></tr>
+                    <tr><td>iw8_ges_demeanor_safe</td><td>Lowers the gun until it gets interrupted</td></tr>
+                    <tr><td>iw8_ges_plyr_gesture000</td><td>Actual thumbs up gesture</td></tr>
+                    <tr><td>iw8_ges_plyr_gesture005</td><td>Thumbs down gesture</td></tr>
+                    <tr><td>iw8_ges_plyr_gesture016</td><td>West coast gesture</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1831,31 +1815,82 @@
                 <thead>
                     <tr>
                         <th>Perk Code</th>
-                        <th>Name</th>
-                        <th>Effect</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>specialty_fastreload</td>   <td>Sleight of Hand</td><td>placeholder</td></tr>
-                    <tr><td>specialty_quickdraw</td>    <td>Quick Draw</td><td>placeholder</td></tr>
-                    <tr><td>specialty_stalker</td>      <td>Stalker</td><td>placeholder</td></tr>
-                    <tr><td>specialty_marathon</td>     <td>Marathon</td><td>placeholder</td></tr>
-                    <tr><td>specialty_ghost</td>        <td>Ghost</td><td>placeholder</td></tr>
-                    <tr><td>specialty_coldblooded</td>  <td>Cold Blooded</td><td>placeholder</td></tr>
-                    <tr><td>specialty_scavenger</td>    <td>Scavenger</td><td>placeholder</td></tr>
-                    <tr><td>specialty_tracker</td>      <td>Tracker</td><td>placeholder</td></tr>
-                    <tr><td>specialty_hardline</td>     <td>Hardline</td><td>placeholder</td></tr>
-                    <tr><td>specialty_bulletdamage</td> <td>Stopping Power</td><td>placeholder</td></tr>
-                    <tr><td>specialty_sprintfire</td>   <td>Tactical Sprint</td><td>placeholder</td></tr>
-                    <tr><td>specialty_gung_ho</td>      <td>Gung-Ho</td><td>placeholder</td></tr>
+                    <tr><td>specialty_fastreload</td>   <td>Faster reload animation</td></tr>
+                    <tr><td>specialty_bulletdamage</td> <td>Stopping Power</td></tr>
+                    <tr><td>specialty_sprintfire</td>   <td>Fire while sprinting</td></tr>
+                    <tr><td>specialty_fastermelee</td>  <td>Fast melee attacks</td></tr>
+                    <tr><td>specialty_double_load</td>  <td>Reloades bot primary and secondary weapons at once</td></tr>
+                    <tr><td>specialty_juiced</td>       <td>Same effect as cranked( faster movement and everything )</td></tr>
+                    <tr><td>specialty_healer</td>       <td>Faster regen, reduced regen delay</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- BOTS -->
+        <div class="section" id="bots">
+            <h2>
+                <img src="icons/perk_icon_stance.png" alt="" class="header-icon">
+                Bots
+            </h2>
+            
+            <div class="command-block">
+                <code>addbot &lt;amount&gt;</code>
+                <div class="description">Add bot(s) to the match</div>
+                <div class="example">
+                    <strong>Example:</strong> <code>addbot 5</code>
+                </div>
+            </div>
+
+            <div class="command-block">
+                <code>kickbot &lt;amount&gt;</code>
+                <div class="description">Remove bot(s) from the match</div>
+                <div class="example">
+                    <strong>Example:</strong> <code>kickbot 3</code>
+                </div>
+            </div>
+
+            <div class="command-block">
+                <code>bot_team &lt;team&gt;</code>
+                <div class="description">Set which team bots spawn on (relative to your team)</div>
+                <div class="example">
+                    <strong>Ally Team:</strong> <code>allies</code>, <code>ally</code>, <code>friend</code>, <code>friendly</code>, <code>same</code><br>
+                    <strong>Enemy Team:</strong> <code>axis</code>, <code>enemy</code>, <code>enemies</code>, <code>opposite</code>, <code>other</code><br>
+                    <strong>Auto:</strong> <code>autoassign</code>, <code>auto</code>
+                </div>
+            </div>
+
+            <div class="command-block">
+                <code>bot_difficulty &lt;difficulty&gt;</code>
+                <div class="description">Set bot difficulty for newly spawned bots</div>
+                <div class="example">
+                    <code>recruit</code>, <code>easy</code>, <code>1</code> - Recruit<br>
+                    <code>regular</code>, <code>normal</code>, <code>2</code> - Regular<br>
+                    <code>hardened</code>, <code>hard</code>, <code>3</code> - Hardened<br>
+                    <code>veteran</code>, <code>vet</code>, <code>4</code> - Veteran
+                </div>
+            </div>
+
+            <div class="command-block">
+                <code>setbotdifficulty &lt;difficulty&gt;</code>
+                <div class="description">Change difficulty of existing bots</div>
+                <div class="example">
+                    Changes all bots, or specific team if <code>bot_team</code> is set
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>Note:</strong> Bot behavior varies between maps and modes, especially on BR/Warzone maps ( Dumb bots ).
+            </div>
         </div>
 
         <!-- MENU CONTROLS -->
         <div class="section" id="menu">
             <h2>
-                <img src="placeholders/menu_keyart_devplaylist_button.png" alt="" class="header-icon">
+                <img src="art/niggachain.png" alt="" class="header-icon">
                 Menu [ Unreleased ]
             </h2>
 
@@ -1886,7 +1921,7 @@
                 <strong>Note:</strong> The menu keeps the last opened page when reopened.
             </div>
         </div>
-
+        
         <!-- TIPS & NOTES -->
         <div class="section" id="notes">
             <h2>
@@ -1902,7 +1937,7 @@
         </div>
 
         <div style="text-align: center; margin: 30px 0;">
-            <a href="https://discord.com/channels/1401240735751213106/1438615039065194516" target="_blank" style="
+            <a href="https://discord.com/channels/1401240735751213106/1440329472111939684/1440329751028957285" target="_blank" style="
                 display: inline-flex;
                 align-items: center;
                 gap: 10px;
@@ -1950,16 +1985,16 @@
 
             <h3>Finding Resources</h3>
             <ul style="color: #b0b0b0; line-height: 2; margin-left: 20px;">
+                <li><strong>In general:</strong> Search in decompiled scripts, dumps, CSV files, ddl files and cfg files. Example: <a href="https://github.com/Sku-111/mw19-gsc-dump/tree/fed85ffeae2101eb72a755c0d7d0986beaaa819b" target="_blank">Sku111's dump</a></li>
                 <li><strong>Scriptables / Omnvars:</strong> Search dumps for setscriptablepartstate() and setclientomnvar() calls</li>
-                <li><strong>Splash Messages:</strong> Search dumps or CSV files</li>
-                <li><strong>VFX Paths:</strong> Full paths start with vfx/</li>
+                <li><strong>Splash Messages:</strong> Search dumps or CSV files, more specifically "splashtable.csv"</li>
             </ul>
 
             <h3>Credits & Special Thanks</h3>
             <div style="background: rgba(26, 26, 26, 0.8); padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <ul style="list-style: none; color: #e0e0e0; line-height: 2.5; font-size: 1.05em;">
                     <li><img src="icons/ui_camo_11a.png" alt="" class="icon-img"> <strong>@elbasedd</strong> - yes</li>
-                    <li><img src="icons/ui_camo_11b.png" alt="" class="icon-img"> <strong>NiggaChain</strong> - Project Financing</li>
+                    <li><img src="art/niggachain.png" alt="" class="icon-img"> <strong>NiggaChain</strong> - Project Financing</li>
                     <li><img src="icons/ui_camo_11c.png" alt="" class="icon-img"> <strong>Testers:</strong> @atuburapaler | @kechioma | @uncrsh | @yoyo1love | @xaratti | @blaster0974 | @impro14 (Joel)</li>
                     <li><img src="icons/ui_camo_11d.png" alt="" class="icon-img"> <strong>Resources (Mainly dumps):</strong> @atuburapaler | @kechioma | @sku111 | @ate47 | @yoyo1love</li>
                 </ul>
@@ -2077,6 +2112,51 @@
                 }
             });
         });
+
+        function highlightActiveSection() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            const viewportCenter = window.scrollY + (window.innerHeight / 2);
+            
+            let closestSection = null;
+            let closestDistance = Infinity;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionCenter = sectionTop + (sectionHeight / 2);
+                
+                const distance = Math.abs(viewportCenter - sectionCenter);
+                
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === '#' + closestSection) {
+                    if (!link.classList.contains('active')) {
+                        link.classList.add('active');
+                    }
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                window.cancelAnimationFrame(scrollTimeout);
+            }
+            scrollTimeout = window.requestAnimationFrame(highlightActiveSection);
+        });
+
+        window.addEventListener('load', highlightActiveSection);
+        setTimeout(highlightActiveSection, 100);
     </script>
 </body>
 </html>
